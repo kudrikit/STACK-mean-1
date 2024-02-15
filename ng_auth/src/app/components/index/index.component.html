@@ -1,0 +1,110 @@
+<div class="container-xl">
+  <div class="table-responsive">
+    <div class="table-wrapper">
+      <div class="table-title">
+        <div class="row">
+          <div class="col-sm-6">
+            <h2>Список Заданий</h2>
+          </div>
+          <div class="col-sm-6">
+            <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i
+              class="material-icons">&#xE147;</i> <span>Добавить задание</span></a>
+          </div>
+        </div>
+      </div>
+      <table class="table table-striped table-hover">
+        <thead>
+        <tr>
+          <th>Нумерация</th>
+          <th>Название</th>
+          <th>Описание</th>
+          <th>Дата публикации</th>
+          <th>Выполнен</th>
+          <th>U/D элементы</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let task of tasks; ">
+
+          <td>{{task._id}}</td>
+          <td>{{task.name}}</td>
+          <td>{{task.description}}</td>
+          <td>{{task.date| date: 'dd/MM/yyyy'}}</td>
+          <td>{{task.isCompleted ? "Yes" : "No"}}</td>
+          <td>
+            <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons"
+                                                                             data-toggle="tooltip"
+                                                                             (click)="selectTask(task)"
+                                                                             title="Edit">&#xE254;</i></a>
+            <a  class="delete" data-toggle="modal"><i class="material-icons" (click)="deleteTask(task._id)"
+                                                                                 data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+</div>
+<!-- Edit Modal HTML -->
+<div id="addEmployeeModal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div  role="form" >
+        <div class="modal-header">
+          <h4 class="modal-title">Добавление Задания</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Название</label>
+            <input  #ctrl="ngModel"  type="text" class="form-control"  [(ngModel)]="new_task.name">
+          </div>
+          <div class="form-group">
+            <label>Описание</label>
+            <textarea  [(ngModel)]="new_task.description" class="form-control" required></textarea>
+          </div>
+
+
+        </div>
+        <div class="modal-footer">
+          <input type="button" class="btn btn-danger" data-dismiss="modal" value="Отменить">
+          <input type="submit" class="btn btn-success" data-dismiss="modal" value="Добавить" (click)="addTask()">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Edit Modal HTML -->
+<div id="editEmployeeModal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div>
+        <div class="modal-header">
+          <h4 class="modal-title">Редактирование Задания</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Название</label>
+            <input [(ngModel)]="selectedTask.name" type="text" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label>Описание</label>
+            <input [(ngModel)]="selectedTask.description" type="text" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label>Выполнен </label>
+            <input type="checkbox" [(ngModel)]="selectedTask.isCompleted" >
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <input type="button" class="btn btn-danger" data-dismiss="modal" value="Отменить">
+          <input (click)="updateTask()" class="btn btn-success" data-dismiss="modal"  value="Сохранить">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
